@@ -8,7 +8,7 @@ var io = require("socket.io")(http);
 
 app.use(express.static(__dirname + "/public"));
 
-// start listen to an event (connection event)
+// start listen to an event with name: "connection"
 io.on("connection", function(){
 	console.log("User connected via socket.io");
 })
