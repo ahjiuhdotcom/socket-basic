@@ -9,9 +9,27 @@ var io = require("socket.io")(http);
 app.use(express.static(__dirname + "/public"));
 
 // start listen to an event with name: "connection"
-io.on("connection", function(){
-	console.log("User connected via socket.io");
-})
+// We tell the server to wait (or listen) to event "connection" whenever available
+io.on("connection", function(socket){
+	console.log("User connected to back end via socket.io");
+
+	// Make 2 browsers talk each other by
+	// 1. server listen to event from browser when user submit message
+	// 2. server emit/send the message to other browser
+	socket.on("message", function(message){
+		console.log("Message receive: " + message.text);
+		
+		// socket.broadcast.emit: send to everybody except sender
+		// io.emit: send to everybody including sender
+		socket.broadcast.emit("message", message)
+	});
+
+	// This one run once during server is connected upon "io.on"
+	// This send an event call "message" to browser (client)
+	socket.emit("message", {
+		text: "Welcome to the chat application!"
+	});
+});
 
 http.listen(PORT, function(){
 	console.log("Server started");
