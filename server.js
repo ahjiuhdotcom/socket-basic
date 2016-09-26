@@ -25,7 +25,7 @@ io.on("connection", function(socket){
 		
 		// socket.broadcast.emit: send to everybody except sender
 		// io.emit: send to everybody including sender
-		socket.broadcast.emit("message", message);
+		io.emit("message", message);
 	});
 
 	// This one run once during server is connected upon "io.on"
