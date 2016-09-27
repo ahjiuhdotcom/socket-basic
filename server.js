@@ -33,6 +33,7 @@ io.on("connection", function(socket){
 	// This one run once during server is connected upon "io.on"
 	// This send an event call "message" to browser (client)
 	socket.emit("message", {
+		name: "System",
 		text: "Welcome to the chat application!",
 		timestamp: moment().valueOf()
 	});

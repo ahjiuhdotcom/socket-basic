@@ -12,20 +12,27 @@ var socket = io();
 // & result will appear at developer tool of browser
 // Server send event to browser thru function socket.emit in server.js file
 
+var name = getQueryVariable("name") || "Anonymous";
+var room = getQueryVariable("room");
+
 socket.on("connect", function(){
 	console.log("Front end connected to socket.io");
+
 });
 
 // The "message" is refer to event name from server.js
 socket.on("message", function(message){
 	var momentTimestamp = moment.utc(message.timestamp).local().format("h:mm a");
+	var $message = jQuery(".messages");
 	console.log("New message");
 	console.log(message.text);
 
-	jQuery(".messages").append("<p><strong>" + momentTimestamp +  ": </strong>" + message.text + "</p>")
+	$message.append("<p><strong>" + message.name + " " + momentTimestamp +  ": </strong></p>");
+	$message.append("<p>" + message.text + "</p>");
+	
 });
 
-var $form = jQuery("#form-message");
+var $form = jQuery("#message-form");
 
 $form.on("submit", function(event){
 	// "preventDefault()" is a method on the "event" object
@@ -36,6 +43,7 @@ $form.on("submit", function(event){
 	var $message = $form.find("input[name=message]");
 
 	socket.emit("message", {
+		name: name,
 		text: $message.val()
 	});
 
