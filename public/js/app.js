@@ -18,10 +18,11 @@ socket.on("connect", function(){
 
 // The "message" is refer to event name from server.js
 socket.on("message", function(message){
+	var momentTimestamp = moment.utc(message.timestamp).local().format("h:mm a");
 	console.log("New message");
 	console.log(message.text);
 
-	jQuery(".messages").append("<p>" + message.text + "</p>")
+	jQuery(".messages").append("<p><strong>" + momentTimestamp +  ": </strong>" + message.text + "</p>")
 });
 
 var $form = jQuery("#form-message");
