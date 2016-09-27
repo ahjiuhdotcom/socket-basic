@@ -9,6 +9,7 @@ var moment = require("moment");
 
 app.use(express.static(__dirname + "/public"));
 
+var clientInfo = {};
 
 // Start listen to an event with name: "connection"
 // We tell the server to wait (or listen) to event "connection" whenever available
@@ -17,6 +18,16 @@ app.use(express.static(__dirname + "/public"));
 // Then emit the event to other browser thru "socket emit", "socket.broadcast.emit" etc
 io.on("connection", function(socket){
 	console.log("User connected to back end via socket.io");
+
+	socket.on("joinMyRoom", function(req) {
+		clientInfo[socket.id] = req;
+		socket.join(req.room);
+		socket.broadcast.to(req.room).emit("message", {
+			name: "System",
+			text: req.name + " has joined",
+			timestamp: moment().valueOf()
+		});
+	});
 
 	// Make 2 browsers talk each other by
 	// 1. server listen to event from browser when user submit message
@@ -27,7 +38,7 @@ io.on("connection", function(socket){
 		message.timestamp = moment().valueOf()
 		// socket.broadcast.emit: send to everybody except sender
 		// io.emit: send to everybody including sender
-		io.emit("message", message);
+		io.to(clientInfo[socket.id].room).emit("message", message);
 	});
 
 	// This one run once during server is connected upon "io.on"

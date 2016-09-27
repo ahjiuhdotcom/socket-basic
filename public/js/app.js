@@ -15,9 +15,14 @@ var socket = io();
 var name = getQueryVariable("name") || "Anonymous";
 var room = getQueryVariable("room");
 
+jQuery(".room-title").text(room);
+
 socket.on("connect", function(){
 	console.log("Front end connected to socket.io");
-
+	socket.emit("joinMyRoom", {
+		name: name,
+		room: room
+	});
 });
 
 // The "message" is refer to event name from server.js
