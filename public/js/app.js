@@ -28,13 +28,16 @@ socket.on("connect", function(){
 // The "message" is refer to event name from server.js
 socket.on("message", function(message){
 	var momentTimestamp = moment.utc(message.timestamp).local().format("h:mm a");
-	var $message = jQuery(".messages");
+	var $messages = jQuery(".messages");
+	var $message = jQuery("<li class='list-group-item'></li>");
+
 	console.log("New message");
 	console.log(message.text);
 
 	$message.append("<p><strong>" + message.name + " " + momentTimestamp +  ": </strong></p>");
 	$message.append("<p>" + message.text + "</p>");
-	
+
+	$messages.append($message);
 });
 
 var $form = jQuery("#message-form");

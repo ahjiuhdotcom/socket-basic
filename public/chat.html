@@ -4,20 +4,40 @@
 		<meta charset="UTF-8">
 		<title>Socket.io Basics</title>
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/styles.css">
 	</head>
 	<body>
-		<a href="/index.html">Change Setting</a>
-		
-		<h1 class="room-title"></h1>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 well">
+					<a href="/index.html">Change Setting</a>
+					
+					<h1 class="room-title"></h1>
+					
+					<ul class="messages list-group">
+						<!-- New message here -->
+					</ul>
 
-		<div class="messages">
-			<!-- New message here -->
+					<form id="message-form">
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="glyphicon glyphicon-comment"></i>
+								</span>
+								<input class="form-control" type="text" name="message"/>
+								
+							</div>
+							
+						</div>
+						<div class="form-group">
+							<input class="btn btn-primary btn-block" type="submit"/>
+						</div>
+						
+					</form>
+				</div>
+			</div>
 		</div>
 
-		<form id="message-form">
-			<input type="text" name="message"/>
-			<input type="submit"/>
-		</form>
 
 		<script src="/js/jquery-3.1.1.slim.min.js" ></script>
 		<script src="/js/socket.io-1.3.7.js" ></script>
